@@ -1052,7 +1052,7 @@ local picker_actions = {}
 --         - but when entering a date in find_notes, the daily/ and weekly/ subdirs are displayed
 --     - optionally previews media (pdf, images, mp4, webm)
 --         - this requires the telescope-media-files.nvim extension
-local function find_files_sorted(opts)
+local function find_files_sorted_raw(opts)
     opts = opts or {}
 
     local file_list = scan.scan_dir(opts.cwd, {})
@@ -1213,6 +1213,10 @@ local function find_files_sorted(opts)
     popup_opts = picker:get_window_options(vim.o.columns, line_count)
 
     picker:find()
+end
+
+local function find_files_sorted(opts)
+    return themes.get_ivy(find_files_sorted_raw(opts))
 end
 
 picker_actions.post_open = function()
